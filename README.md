@@ -1,19 +1,54 @@
-# PreTeXt Codespace
+# Engineering Statics
 
-Use this template repository to quickly start a new [PreTeXt](https://pretextbook.org) project entirely in the cloud, using GitHub Codespaces.  
+This is the source repository for [*Engineering Statics*: Open and Interactive](https://engineeringstatics.org), a free, open-source, university-level OER textbook.  The book is produced using [PreText](https://pretextbook.org).
 
-## Instructions
+The online  version  is available at [https://engineeringstatics.org](https://engineeringstatics.org), and a pdf version at [https://engineeringstatics.org/pdf/statics.pdf](https://engineeringstatics.org/pdf/statics.pdf) for print or tablet use.
 
-Look for the green button at the top right of this page.  If the button says `Use this template`, then you are ready to create a new repository for your project.  Click on the button and select "Create a new repository".  On the next page, give your project a name, select public or private (this can be changed later), and click the "Create repository from template" button.
+A [Google Group](https://groups.google.com/g/engineering-statics-oer-text) is available for discussion about the textbook.  Please 
+direct any comments, suggestions or errors to this group, or directly to [William Haynes](mailto:whaynes@maritime.edu).  
 
-You now have a GitHub repository saved in your account.  You can come back to that page any time you want to work on your project (note the URL or else find it in the list of your repositories when you log in to GitHub).
+If you would like to contribute content to the textbook, contact the project coordinator and lead author, [Dr. Dan Baker](mailto:dan.baker@colostate.edu).  We are particularly interested in adding more example problems to all chapters.  
 
-To start work on your project, go to the green button at the top of *your* repository's page, which will say `<> Code`.  
+## Authoring and deployment instructions
 
-1. Click on this button.
-2. Click on the tab that says "Codespaces."
-3. Click "Create codespace on main."
+### Asset management
 
-This take a minute or two (just the first time; later this will be much faster) and then open a browser version of VS Code with everything set up to start working.  It will generate a new pretext book (and replace this README with one you can edit for your project). 
+The source for several assets may be found at `source/resources`. These output files must have unique names, and must be copied into the gitignored `assets`  where they can be seen by PreTeXt, using the `update_assets.py` script:
 
-Next time you want to work on your book, return to your newly created repository, go to the green `<> Code` button, and select the codespace you previously created.  If you don't see that codespace (perhaps you deleted it to save space), you can always create a new codespace.
+```bash
+python scripts/update_assets.py
+```
+
+This process must be done once when the project is cloned from Git, and repeated
+each time an asset in `source/resources` is updated.
+
+### Building
+
+To build HTML and PDF versions of the book using the CLI after managing assets
+(see above):
+
+```bash
+pretext build web --clean
+pretext build print --clean
+```
+To update the landing page,
+1. `cd` to` /statics/source/jekyll` and edit
+2. run `bundle exec jekyll build` to render the content into `/statics/site`.  
+
+### Deploying
+
+To preview how this book will appear upon a deploy to `engineeringstatics.org`:
+
+```bash
+rm -rf output/stage # to remove cached files
+pretext deploy --stage-only
+pretext view # open /output/stage in your browser
+```
+
+To deploy updates to `engineeringstatics.org`:
+
+```bash
+## after adding/commiting everything with Git
+rm -rf output/stage # to remove cached files
+pretext deploy
+```
