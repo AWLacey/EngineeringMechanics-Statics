@@ -5,8 +5,8 @@
   <xi:include href="docinfo.ptx"/>
 
   <book>
-    <title>Engineering Statics</title>
-    <subtitle>Open and Interactive</subtitle>
+    <title>Engineering Mechanics</title>
+    <subtitle>Statics in SI Units</subtitle>
     <xi:include href="frontmatter.ptx"/>
     <xi:include href="Chapter_01.ptx"/>
     <xi:include href="Chapter_02.ptx"/>
